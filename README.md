@@ -70,6 +70,134 @@ Display all filtered images using a grid layout for comparison.
 
 ---
 
+## PROGRAM :
+```python
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+image1 = cv2.imread('mountain view.jpeg')
+if image1 is None:
+    raise FileNotFoundError("red.jpg was not found. Place red.jpg in the same folder as this notebook.")
+
+image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
+kernel = np.ones((5, 5), np.float32) / 25
+image3 = cv2.filter2D(image2, -1, kernel)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(image3)
+plt.title('Averaging Filter Image')
+plt.axis('off')
+plt.show()
+```
+
+```python
+# In[2]: Using Weighted Averaging Filter
+
+kernel1 = np.array([[1, 2, 1],
+                    [2, 4, 2],
+                    [1, 2, 1]], dtype=np.float32) / 16
+
+weighted_image = cv2.filter2D(image2, -1, kernel1)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(weighted_image)
+plt.title('Weighted Average Filter Image')
+plt.axis('off')
+plt.show()
+```
+
+```python
+# In[3]: Using Gaussian Filter
+
+gaussian_blur = cv2.GaussianBlur(image2, (5, 5), 0)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(gaussian_blur)
+plt.title('Gaussian Blur')
+plt.axis('off')
+plt.show()
+```
+
+```python
+# In[4]: Using Median Filter
+
+median = cv2.medianBlur(image2, 5)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(median)
+plt.title('Median Filter Image')
+plt.axis('off')
+plt.show()
+```
+
+```python
+# In[5]: Using Laplacian Kernel
+
+kernel2 = np.array([[0, -1, 0],
+                    [-1, 5, -1],
+                    [0, -1, 0]], dtype=np.float32)
+
+sharpened_image = cv2.filter2D(image2, -1, kernel2)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(sharpened_image)
+plt.title('Sharpened Image - Laplacian Kernel')
+plt.axis('off')
+plt.show()
+```
+
+```python
+# In[6]: Using Laplacian Operator
+
+gray = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+laplacian = cv2.Laplacian(gray, cv2.CV_64F)
+laplacian_abs = cv2.convertScaleAbs(laplacian)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.imshow(image2)
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1, 2, 2)
+plt.imshow(laplacian_abs, cmap='gray')
+plt.title('Laplacian Operator')
+plt.axis('off')
+plt.show()
+```
+
 ##  Output
 
 ### Smoothing Filters
